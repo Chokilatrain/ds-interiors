@@ -1,0 +1,13 @@
+// Cloudflare Workers static assets config. Workers Builds runs `npm run build`, then
+// `npx wrangler deploy` uploads dist/ as a static site (no Worker script).
+{
+  "name": "ds-interiors",
+  "compatibility_date": "2026-11-15",
+  "assets": {
+    "directory": "./dist/",
+    // Unknown paths get dist/404.html with a real 404 status.
+    "not_found_handling": "404-page",
+    // /portfolio/ serves dist/portfolio/index.html (the pre-rendered pages are nested).
+    "html_handling": "auto-trailing-slash"
+  }
+}

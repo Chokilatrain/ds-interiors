@@ -56,15 +56,19 @@ scripts/                fetch-cms (stub), serve-dist.
 public/images/          Seed images downloaded from her Wix site.
 ```
 
-## Deploying (Cloudflare Pages)
+## Deploying (Cloudflare Workers static assets)
 
-Connect the GitHub repo in the Cloudflare dashboard (Workers & Pages > Create > Pages > Connect to Git) and use:
+The repo is connected in Cloudflare (Workers & Pages > Create > Import a repository) with:
 
 - Build command: `npm run build`
-- Build output directory: `dist`
-- Environment variables: `VITE_CONTENT_SOURCE=fake`, `VITE_PREVIEW=1`, `VITE_NOINDEX=1` (plus `VITE_SITE_URL` once there is a domain)
+- Deploy command: `npx wrangler deploy` (preview builds: `npx wrangler preview`)
+- Path: `/`
 
-`.node-version` pins Node 22 for the build, and `public/_headers` sets cache headers. Every push to `main` deploys, and other branches get their own preview URL. Clean URLs and `404.html` work out of the box because the build writes nested `index.html` files.
+`wrangler.jsonc` tells wrangler to upload `dist/` as a static site, serve the nested `index.html` files at clean URLs, and return `dist/404.html` with a 404 for unknown paths. The Worker `name` in it matches the Cloudflare project name (`ds-interiors`).
+
+Build settings come from `.env.production` (committed, no secrets): fake content, the Preview tag on, and noindex on. Change it there for launch rather than in the dashboard, and set `VITE_SITE_URL` once there is a domain. Variables set in the Cloudflare deploy form are runtime Worker variables, which a static site doesn't use. Build-time overrides go under Settings > Build > Build variables.
+
+`.node-version` pins Node 22 for the build, and `public/_headers` sets cache headers (Workers static assets read it). Pushes to `main` deploy; other branches get preview URLs.
 
 ## Lightbox
 
