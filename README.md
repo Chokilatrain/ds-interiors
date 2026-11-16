@@ -64,3 +64,4 @@ public/images/          Seed images downloaded from her Wix site.
 - Social links are empty until Danii sends hers. The footer hides the row when there are none.
 - Project URLs are `/projects/<slug>`. LUST Minerals moved from Wix's long slug to `/projects/lust-minerals`.
 # ds-interiors
+# ds-interiors
