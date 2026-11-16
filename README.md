@@ -49,12 +49,26 @@ src/
     source.ts           Picks fake or cms, exposes `content`, getProject, nextProject.
     seed/               Fake-mode content and image sizes.
     cms/                generated.json (gitignored) + map.ts.
-  components/           Layout, header, footer, Seo, Img, ProjectCard, ContactForm, TourSection, PreviewTag.
+  components/           Layout, header, footer, Seo, Img, ProjectCard, ContactForm, TourSection, Lightbox, PreviewTag.
   pages/                Home, Portfolio, ProjectPage, NotFound.
   styles/               site.css (tokens from the design canvas), fonts.ts (self-hosted via Fontsource).
 scripts/                fetch-cms (stub), serve-dist.
 public/images/          Seed images downloaded from her Wix site.
 ```
+
+## Deploying (Cloudflare Pages)
+
+Connect the GitHub repo in the Cloudflare dashboard (Workers & Pages > Create > Pages > Connect to Git) and use:
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Environment variables: `VITE_CONTENT_SOURCE=fake`, `VITE_PREVIEW=1`, `VITE_NOINDEX=1` (plus `VITE_SITE_URL` once there is a domain)
+
+`.node-version` pins Node 22 for the build, and `public/_headers` sets cache headers. Every push to `main` deploys, and other branches get their own preview URL. Clean URLs and `404.html` work out of the box because the build writes nested `index.html` files.
+
+## Lightbox
+
+On project pages the cover and every gallery image open a full-screen viewer (`src/components/Lightbox.tsx`). It's built on the native modal `<dialog>`, so the browser handles focus, Esc, and the mobile back gesture, and returns focus to the image when it closes. Arrow keys and horizontal swipes move between images, and clicking the dark area closes it. No dependencies.
 
 ## Notes
 
@@ -63,5 +77,3 @@ public/images/          Seed images downloaded from her Wix site.
 - The 360 tour slot is only on Mid Century Modernism for now, showing a preview image with a "coming soon" label. The tour viewer is the next stage.
 - Social links are empty until Danii sends hers. The footer hides the row when there are none.
 - Project URLs are `/projects/<slug>`. LUST Minerals moved from Wix's long slug to `/projects/lust-minerals`.
-# ds-interiors
-# ds-interiors
