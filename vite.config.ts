@@ -3,7 +3,7 @@ import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { NOT_FOUND_PATH, projectPath, routeMeta } from './src/routes.meta.ts'
+import { NOT_FOUND_PATH, projectPath, routeMeta, tourPath } from './src/routes.meta.ts'
 import { seedContent } from './src/content/seed/index.ts'
 
 /**
@@ -21,6 +21,20 @@ function projectSlugs(mode: string | undefined): string[] {
     }
   }
   return seedContent.projects.map((p) => p.slug)
+}
+
+/** Tour slugs to pre-render, chosen the same way as projectSlugs. */
+function tourSlugs(mode: string | undefined): string[] {
+  const generated = fileURLToPath(new URL('./src/content/cms/generated.json', import.meta.url))
+  if (mode === 'cms' && existsSync(generated)) {
+    try {
+      const data = JSON.parse(readFileSync(generated, 'utf8')) as { tours?: { slug: string }[] }
+      return (data.tours ?? []).map((t) => t.slug)
+    } catch {
+      // Reported by src/content/cms/map.ts.
+    }
+  }
+  return seedContent.tours.map((t) => t.slug)
 }
 
 export default defineConfig(({ mode }) => {
@@ -44,7 +58,8 @@ export default defineConfig(({ mode }) => {
     ssgOptions: {
       dirStyle: 'nested',
       script: 'defer',
-      includedRoutes: () => [...pages, NOT_FOUND_PATH],
+      // Tour pages are rendered but left out of the sitemap (they're noindex).
+      includedRoutes: () => [...pages, ...tourSlugs(contentMode).map(tourPath), NOT_FOUND_PATH],
       onFinished(dir: string) {
         // Static hosts serve /404.html for unknown paths.
         const rendered404 = join(dir, NOT_FOUND_PATH.slice(1), 'index.html')

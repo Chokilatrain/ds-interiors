@@ -1,4 +1,4 @@
-import type { Project, SiteContent } from './types'
+import type { Project, SiteContent, TourData } from './types'
 import { seedContent } from './seed'
 import { cmsGenerated } from './cms'
 import { mapCmsContent } from './cms/map'
@@ -54,3 +54,6 @@ export function nextProject(slug: string): Project {
   const i = content.projects.findIndex((p) => p.slug === slug)
   return content.projects[(i + 1) % content.projects.length]
 }
+
+export const getTour = (slug: string | undefined): TourData | undefined =>
+  content.tours.find((t) => t.slug === slug)

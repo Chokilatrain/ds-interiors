@@ -46,10 +46,13 @@ export const projects: Project[] = [
     cover: img('mid-century-modernism', 1, 'Marble island bench with yellow stools, sunflowers, and timber cabinetry'),
     gallery: gallery('mid-century-modernism', 'Mid Century Modernism', [1]),
     tour: {
-      status: 'coming-soon',
+      // Demo run: wired to the sample-room tour until Danii's own 360 renders arrive.
+      status: 'live',
       heading: 'Step inside the space',
-      body: 'Look around the kitchen in 360°, then move through to the dining area and deck.',
+      body: 'Look around each room in 360°, then move through the doorways to the next.',
       preview: img('mid-century-modernism', 3, 'Preview of the 360 degree tour of the kitchen'),
+      tourSlug: 'demo',
+      note: 'Demo tour using sample rooms while the 360° renders for this project are prepared.',
     },
   },
   {

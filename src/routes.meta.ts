@@ -61,3 +61,6 @@ export const routeByKey = (key: PageKey): RouteMeta => {
 }
 
 export const projectPath = (slug: string) => `/projects/${slug}`
+
+export const TOURS_BASE = '/tours'
+export const tourPath = (slug: string) => `${TOURS_BASE}/${slug}`

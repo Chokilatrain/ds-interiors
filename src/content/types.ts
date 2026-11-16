@@ -75,14 +75,58 @@ export interface ProjectList {
   items: string[]
 }
 
+/** A doorway or arrow in a scene that moves to another scene. Angles in degrees. */
+export interface TourLink {
+  /** Target scene id. */
+  to: string
+  /** Horizontal angle: 0 is the centre of the panorama, positive turns right. */
+  yaw: number
+  /** Vertical angle: 0 is the horizon, negative looks down. */
+  pitch: number
+}
+
+/** A point of interest in a scene: a pin that shows a short note. */
+export interface TourHotspot {
+  id: string
+  yaw: number
+  pitch: number
+  title: string
+  body: string
+}
+
+/** One 360° panorama (equirectangular, 2:1) in a tour. */
+export interface TourScene {
+  id: string
+  title: string
+  /** URL of the equirectangular image. */
+  panorama: string
+  /** Small 2:1 preview used in the room picker. */
+  thumbnail: string
+  /** Where the view faces when the scene opens, in degrees. */
+  startYaw?: number
+  links: TourLink[]
+  hotspots?: TourHotspot[]
+}
+
+export interface TourData {
+  slug: string
+  title: string
+  /** Shown in the viewer, e.g. who made the panoramas. */
+  credit?: string
+  startScene: string
+  scenes: TourScene[]
+}
+
 export interface Tour {
-  /** coming-soon shows the preview with a label; live embeds the tour viewer (next stage). */
+  /** coming-soon shows the preview with a label; live opens the viewer for tourSlug. */
   status: 'coming-soon' | 'live'
   heading: string
   body: string
   preview: Image
-  /** The tour viewer URL once tours are built. */
-  url?: string
+  /** Which entry in SiteContent.tours to show when live. */
+  tourSlug?: string
+  /** Shown under the viewer, e.g. to say a tour uses sample rooms. */
+  note?: string
 }
 
 export interface Project {
@@ -114,4 +158,6 @@ export interface SiteContent {
   home: HomeContent
   /** In display order. */
   projects: Project[]
+  /** 360° tours, each at /tours/<slug> and embeddable on a project page. */
+  tours: TourData[]
 }

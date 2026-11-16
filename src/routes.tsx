@@ -1,13 +1,18 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import Layout from '@/components/Layout'
 import NotFound from '@/pages/NotFound'
-import { NOT_FOUND_PATH } from './routes.meta'
+import { NOT_FOUND_PATH, TOURS_BASE } from './routes.meta'
 
 /**
  * Maps the route table to react-router records. Each page is lazy so it ships as its own
  * chunk; vite-react-ssg resolves them at build time for pre-rendering.
  */
 export const routes: RouteRecord[] = [
+  // Full-screen tours sit outside the site layout (no header or footer).
+  {
+    path: `${TOURS_BASE}/:slug`,
+    lazy: async () => ({ Component: (await import('@/pages/TourPage')).default }),
+  },
   {
     path: '/',
     element: <Layout />,

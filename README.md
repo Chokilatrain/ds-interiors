@@ -58,11 +58,12 @@ src/
     source.ts           Picks fake or cms, exposes `content`, getProject, nextProject.
     seed/               Fake-mode content and image sizes.
     cms/                generated.json (gitignored) + map.ts.
-  components/           Layout, header, footer, Seo, Img, ProjectCard, ContactForm, TourSection, Lightbox, PreviewTag.
-  pages/                Home, Portfolio, ProjectPage, NotFound.
+  components/           Layout, header, footer, Seo, Img, ProjectCard, ContactForm, TourSection, TourViewer, Lightbox, PreviewTag.
+  pages/                Home, Portfolio, ProjectPage, TourPage, NotFound.
   styles/               site.css (tokens from the design canvas), fonts.ts (self-hosted via Fontsource).
 scripts/                fetch-cms (stub), serve-dist.
 public/images/          Seed images downloaded from her Wix site.
+public/tours/demo/      Sample 360 panoramas for the demo tour (Poly Haven, CC0).
 ```
 
 ## Deploying (Cloudflare Workers static assets)
@@ -83,10 +84,19 @@ Build settings come from `.env.production` (committed, no secrets): fake content
 
 On project pages the cover and every gallery image open a full-screen viewer (`src/components/Lightbox.tsx`). It's built on the native modal `<dialog>`, so the browser handles focus, Esc, and the mobile back gesture, and returns focus to the image when it closes. Arrow keys and horizontal swipes move between images, and clicking the dark area closes it. No dependencies.
 
+## 360 tours
+
+Our own replacement for Panoraven, built on Photo Sphere Viewer (MIT, uses three.js) with its virtual tour and markers plugins. Panoraven doesn't make panoramas either, it hosts and plays ones you upload, so the work on Danii's side is the same: export each room as a 360 equirectangular image (2:1, ideally 6000x3000 or larger, JPG), for example a V-Ray spherical panorama from SketchUp.
+
+- Data: `TourData` in `src/content/types.ts`. A tour is a list of scenes, each with its panorama, a thumbnail, doorway links to other scenes, and optional hotspots (a pin with a title and a short note). Positions are yaw and pitch in degrees: yaw 0 is the centre of the image and positive turns right, pitch 0 is the horizon and negative looks down. The easiest way to find a doorway's yaw is its x position in the image: `yaw = (x / width) * 360 - 180`.
+- Viewer: `src/components/TourViewer.tsx`. PSV and three.js load only when a tour opens (about 190 KB gzipped), so the rest of the site doesn't pay for it. The room picker under the viewer is the keyboard and screen reader way through the tour.
+- On a project, set `tour.status` to `live` and `tour.tourSlug` to the tour's slug. The project page shows the preview with a start button that swaps in the viewer, plus a link to the full-screen page at `/tours/<slug>` (no header, always noindex, and the URL to share with a client or embed in an iframe).
+- The demo tour (`src/content/seed/tours.ts`) uses five unrelated CC0 rooms from Poly Haven, so the doorway links are made up. Mid Century Modernism points at it with a note saying it's sample rooms.
+- Panoramas should go on R2 or Bunny once there are real ones (a 6K JPG is 2 to 5 MB, and Workers static assets cap files at 25 MB). Only the URL in the data changes.
+
 ## Notes
 
 - Fonts are self-hosted from npm (Fontsource: Cormorant Garamond and Jost), so nothing is loaded from Google.
 - The images are the Wix copies (max 1800px). Swap in her originals from the hard drive and update the sizes in `src/content/seed/images.ts`. Gallery alt text is generic for now, and the CMS should require a proper description per image.
-- The 360 tour slot is only on Mid Century Modernism for now, showing a preview image with a "coming soon" label. The tour viewer is the next stage.
 - Social links are empty until Danii sends hers. The footer hides the row when there are none.
 - Project URLs are `/projects/<slug>`. LUST Minerals moved from Wix's long slug to `/projects/lust-minerals`.

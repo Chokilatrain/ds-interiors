@@ -1,6 +1,7 @@
 import type { SiteContent } from '../types.ts'
 import { img } from './images.ts'
 import { projects } from './projects.ts'
+import { tours } from './tours.ts'
 
 /**
  * Fake-mode content: everything the site shows before the CMS exists. Copy comes from the
@@ -71,4 +72,5 @@ export const seedContent: SiteContent = {
     },
   },
   projects,
+  tours,
 }

@@ -8,12 +8,14 @@ interface SeoProps {
   /** Concrete path of this page, e.g. /projects/serene-retreat. */
   path: string
   image?: Image
+  /** Keep this page out of search even after launch (e.g. full-screen tour pages). */
+  noindex?: boolean
 }
 
 /** Per-page head tags. VITE_NOINDEX=1 keeps the whole preview out of search engines. */
-export function Seo({ title, description, path, image }: SeoProps) {
+export function Seo({ title, description, path, image, noindex: pageNoindex }: SeoProps) {
   const url = `${SITE_URL}${path === '/' ? '' : path}`
-  const noindex = import.meta.env.VITE_NOINDEX === '1'
+  const noindex = pageNoindex || import.meta.env.VITE_NOINDEX === '1'
   const img = image ? (image.src.startsWith('http') ? image.src : `${SITE_URL}${image.src}`) : undefined
   return (
     <Head>

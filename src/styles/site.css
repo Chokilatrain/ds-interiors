@@ -1022,6 +1022,36 @@ figure {
   color: var(--olive);
 }
 
+button.tour__badge {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tour__links {
+  margin-top: 4px;
+}
+
+.tour__link {
+  color: var(--on-dark);
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--oak);
+}
+
+.tour__note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--on-dark-soft);
+}
+
+/* Once opened, the viewer takes the full width under the copy. */
+.tour--open .tour__media {
+  flex-basis: 100%;
+}
+
 @media (max-width: 480px) {
   .tour__badge {
     font-size: 12px;
@@ -1234,4 +1264,229 @@ figure {
 .lightbox__btn:focus-visible {
   outline: 2px solid var(--on-dark);
   outline-offset: 2px;
+}
+
+/* ---------- 360 tour viewer (Photo Sphere Viewer, themed to the brand) ---------- */
+
+.tour-viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tour-viewer__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  background: #24281c;
+}
+
+/* PSV fills its parent with height: 100%, which doesn't resolve against a flex or
+   aspect-ratio height, so pin it to the stage instead. */
+.tour-viewer__stage > .psv-container {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.tour-viewer__error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--on-dark);
+}
+
+.tour-viewer .psv-navbar {
+  background: rgb(46 51 35 / 0.82);
+  font-family: var(--sans);
+}
+
+.tour-viewer .psv-caption {
+  color: var(--on-dark-soft);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.tour-viewer .psv-loader {
+  color: var(--oak);
+  font-family: var(--sans);
+}
+
+.tour-viewer .psv-tooltip {
+  background: rgb(46 51 35 / 0.92);
+  border-radius: 2px;
+  font-family: var(--sans);
+}
+
+.tour-viewer .psv-tooltip-content {
+  color: var(--on-dark);
+  font-size: 13px;
+}
+
+.tour-viewer .psv-tooltip-arrow {
+  border-top-color: rgb(46 51 35 / 0.92);
+}
+
+.tour-viewer .psv-panel {
+  background: rgb(36 40 28 / 0.94);
+  font-family: var(--sans);
+}
+
+/* Hotspot pin: oak dot in a pale ring with a soft pulse. */
+.tour-pin {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--oak) 0 7px, rgb(244 242 236 / 0.9) 8px 11px, rgb(244 242 236 / 0.25) 12px);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.35);
+  cursor: pointer;
+  animation: tour-pin-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes tour-pin-pulse {
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-pin {
+    animation: none;
+  }
+}
+
+.tour-note {
+  padding: 28px 24px;
+  color: var(--on-dark);
+}
+
+.tour-note h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.tour-note p {
+  color: var(--on-dark-soft);
+  line-height: 1.6;
+}
+
+/* Room picker, also the keyboard and screen reader way through the tour. */
+.tour-rooms ul {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 0 4px;
+  margin: 0;
+  scrollbar-width: thin;
+}
+
+.tour-rooms__btn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid transparent;
+  background: rgb(244 242 236 / 0.06);
+  color: var(--on-dark-soft);
+  font: 500 12px/1.2 var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tour-rooms__btn img {
+  width: 96px;
+  height: 48px;
+  object-fit: cover;
+  display: block;
+}
+
+.tour-rooms__btn:hover:not(:disabled) {
+  background: rgb(244 242 236 / 0.12);
+}
+
+.tour-rooms__btn[aria-current='true'] {
+  border-color: var(--oak);
+  color: var(--on-dark);
+}
+
+.tour-rooms__btn:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.tour-rooms__btn:focus-visible {
+  outline: 2px solid var(--oak);
+  outline-offset: 2px;
+}
+
+/* Full-screen tour page */
+.tour-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #24281c;
+  color: var(--on-dark);
+}
+
+.tour-page__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tour-page__bar a {
+  color: var(--on-dark);
+  text-decoration: none;
+}
+
+.tour-page__brand {
+  font-family: var(--serif);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+}
+
+.tour-page__title {
+  font: inherit;
+  color: var(--on-dark-soft);
+  margin: 0;
+}
+
+.tour-page__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+}
+
+.tour-page .tour-viewer {
+  flex: 1;
+}
+
+.tour-page .tour-viewer__stage {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 60dvh;
+}
+
+@media (max-width: 600px) {
+  .tour-page__title {
+    display: none;
+  }
 }
