@@ -15,6 +15,15 @@ npm run preview      # serves dist/ like a static host, http://localhost:4173
 npm run verify       # typecheck + build
 ```
 
+## Brand
+
+Styling follows Danii's brand identity guidelines (see the "Brand on the web" board on the design canvas). All tokens are CSS variables at the top of `src/styles/site.css`:
+
+- Brand colours: sage `#7C846C`, pale sage `#D2D7C3`, and oak `#CBB494` (decorative only, never text). Sand `#E5D8BE` comes from her palette page.
+- Text colours: deep sage `#575E48` and deep olive `#2E3323`, from her font studies. Her mid sage is too light for small text, so body copy never sits on it.
+- Fonts: her brand fonts are CoFo Raffine and Gabriola, both on Adobe Fonts for web use. Until there's an Adobe Fonts web project, the self-hosted stand-ins are Playfair Display (headings) and Cormorant Garamond Italic (the "Interior Design" accent), with Jost for body text. To switch, load the Adobe Fonts stylesheet in `index.html` and put the Adobe family names first in `--serif` and `--accent`.
+- Brand pieces: the Timeless · Unique · Evoke strip (`home.values` in the content, so it can be edited), the oak offset frame (`.framed`), and "Interior Design" under the name in the header (`site.tagline`).
+
 ## Content modes
 
 Set with `VITE_CONTENT_SOURCE` in `.env` (read at build time).

@@ -45,6 +45,8 @@ export interface HomeContent {
     intro: string
     image: Image
   }
+  /** The brand words from her brand statement, shown as a strip under the hero. */
+  values: string[]
   about: {
     heading: string
     paragraphs: string[]

@@ -21,7 +21,10 @@ export function SiteHeader() {
             width={64}
             height={64}
           />
-          <span className="brand__name">{site.name}</span>
+          <span className="brand__text">
+            <span className="brand__name">{site.name}</span>
+            <span className="brand__sub">{site.tagline}</span>
+          </span>
         </Link>
         <nav aria-label="Main" className="site-nav">
           {NAV.map((item) =>

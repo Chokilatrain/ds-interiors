@@ -10,7 +10,7 @@ import { projects } from './projects.ts'
 export const seedContent: SiteContent = {
   site: {
     name: 'DS Interiors',
-    tagline: 'Interior design',
+    tagline: 'Interior Design',
     location: 'Gold Coast, Queensland',
     email: 'dmunro525@hotmail.com',
     phone: '0404 123 742',
@@ -36,6 +36,7 @@ export const seedContent: SiteContent = {
         'Mid century kitchen opening to the dining area and garden through bi-fold doors',
       ),
     },
+    values: ['Timeless', 'Unique', 'Evoke'],
     about: {
       heading: 'Spaces that feel meaningful, immersive, and connected to their purpose.',
       paragraphs: [

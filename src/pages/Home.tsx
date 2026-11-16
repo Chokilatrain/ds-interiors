@@ -33,11 +33,21 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="hero__media">
+          <div className="hero__media framed">
             <Img image={home.hero.image} priority className="cover-img ratio-4x3" sizes="(min-width: 900px) 55vw, 100vw" />
           </div>
         </div>
       </section>
+
+      {home.values.length > 0 && (
+        <section className="values" aria-label="Brand values">
+          <ul className="container values__list">
+            {home.values.map((v) => (
+              <li key={v}>{v}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section id="about" className="band">
         <div className="container split">
@@ -93,7 +103,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="band band--sage">
+      <section id="contact" className="band band--sand">
         <div className="container contact">
           <div className="contact__copy">
             <p className="eyebrow">Contact</p>
